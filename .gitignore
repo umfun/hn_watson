@@ -1,0 +1,11 @@
+# Project-specific
+target
+output
+data
+
+# Generic
+*~
+.svn
+*.sw?
+.DS_Store
+.idea
