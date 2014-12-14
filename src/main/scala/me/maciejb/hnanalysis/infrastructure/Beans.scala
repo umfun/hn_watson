@@ -11,7 +11,7 @@ import me.maciejb.hnanalysis.submission.Submitter
 
 trait ConfigurationModule {
 
-  val outputDirectory = Paths.get("/", "Users", "maciejb", "Development", "hn_analysis", "output")
+  val outputDirectory = Paths.get("/", "Users", "maciejb", "Development", "hn_watson", "output")
   val top10OutputDirectory = outputDirectory.resolve("top10")
   val top10ProfilesOutputDirectory = outputDirectory.resolve("top10profiles")
   val userCommentsOutputDirectory = outputDirectory.resolve("users")

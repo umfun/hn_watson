@@ -3,6 +3,8 @@ package me.maciejb.hnanalysis.tasks
 import java.nio.charset.Charset
 import java.nio.file.{Files, StandardOpenOption}
 
+import me.maciejb.hnanalysis.HackerNews
+
 /**
  * @author Maciej Bilas
  * @since 13/12/14 15:41
@@ -15,7 +17,7 @@ object Top100Profiles extends App {
   Files.deleteIfExists(outputFile)
   Files.createFile(outputFile)
 
-  val top100Users = userCommentsDao.topUsers(100)
+  val top100Users = HackerNews.leaders
 
   val profiles = for {
     user <- top100Users
