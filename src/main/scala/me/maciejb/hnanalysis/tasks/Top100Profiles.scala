@@ -19,7 +19,7 @@ object Top100Profiles extends App {
 
   val top100Users = HackerNews.leaders
 
-  val profiles = for {
+  for {
     user <- top100Users
     profile <- analyzerPipeline.profileOf(user)
   } {

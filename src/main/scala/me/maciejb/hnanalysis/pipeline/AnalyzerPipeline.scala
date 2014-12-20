@@ -1,20 +1,13 @@
 package me.maciejb.hnanalysis.pipeline
 
-import java.nio.charset.Charset
-import java.nio.file.{StandardOpenOption, OpenOption, Files}
-
 import akka.actor.ActorSystem
 import com.typesafe.scalalogging.slf4j.LazyLogging
+import me.maciejb.hnanalysis.control.retry
 import me.maciejb.hnanalysis.db.access.UserCommentsDao
-import me.maciejb.hnanalysis.infrastructure.Beans
-import me.maciejb.hnanalysis.submission.{WatsonRespExtractor, StoriesQualifier, Submitter}
-
-import scala.concurrent.{Await, ExecutionContext}
+import me.maciejb.hnanalysis.submission.{StoriesQualifier, Submitter, WatsonRespExtractor}
 
 import scala.concurrent.duration._
-
-import me.maciejb.hnanalysis.control.retry
-
+import scala.concurrent.{Await, ExecutionContext}
 import scala.util.Try
 
 class AnalyzerPipeline(submitter: Submitter, userCommentsDao: UserCommentsDao)
@@ -34,5 +27,3 @@ class AnalyzerPipeline(submitter: Submitter, userCommentsDao: UserCommentsDao)
   }
 
 }
-
-
