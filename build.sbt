@@ -1,14 +1,13 @@
 name := "hn_watson"
 version := "1.0"
-scalaVersion := "2.11.4"
+scalaVersion := "2.11.6"
 
 // Resolvers
 resolvers ++= Seq(
-  "SoftwareMill Public Releases" at "https://nexus.softwaremill.com/content/repositories/releases/",
-  "SoftwareMill Public Snapshots" at "https://nexus.softwaremill.com/content/repositories/snapshots/"
+  "Garden repository" at "https://dl.bintray.com/maciej/maven/"
 )
 
-val macwireVersion = "0.8"
+val macwireVersion = "1.0.1"
 val macwire = Seq(
   "com.softwaremill.macwire" %% "macros" % macwireVersion,
   "com.softwaremill.macwire" %% "runtime" % macwireVersion
@@ -35,15 +34,17 @@ val jsoup = "org.jsoup" % "jsoup" % "1.7.3"
 val casbah = "org.mongodb" %% "casbah" % "2.7.4" exclude(org = "org.scala-lang", name = "scala-library")
 val salat = "com.novus" %% "salat" % "1.9.9"
 
-val lawn = "com.softwaremill.thegarden" %% "lawn" % "0.0.25-SNAPSHOT"
+val lawn = "me.maciejb.garden" %% "garden-lawn" % "0.0.33"
 
 val sprayClient = "io.spray" %% "spray-client" % "1.3.2"
 
 def akkaModule(name : String) = {
-  val akkaVersion = "2.3.7"
+  val akkaVersion = "2.3.11"
   "com.typesafe.akka" %% s"akka-$name" % akkaVersion
 }
 val akka = (akkaModule("testkit") % "test") :: (List("actor", "slf4j") map akkaModule)
 
+val spark = "org.apache.spark" %% "spark-core" % "1.3.1" exclude("org.slf4j", "slf4j-log4j12")
+
 libraryDependencies ++= logging ++ jodaTime ++ testingDeps ++
-  Seq(casbah, salat, jsoup, sprayClient, lawn) ++ akka
+  Seq(casbah, salat, jsoup, sprayClient, lawn, spark) ++ akka

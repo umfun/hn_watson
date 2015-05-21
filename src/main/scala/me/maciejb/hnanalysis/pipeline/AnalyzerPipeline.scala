@@ -2,7 +2,7 @@ package me.maciejb.hnanalysis.pipeline
 
 import akka.actor.ActorSystem
 import com.typesafe.scalalogging.slf4j.LazyLogging
-import me.maciejb.hnanalysis.control.retry
+import com.softwaremill.thegarden.lawn.control.retry
 import me.maciejb.hnanalysis.db.access.UserCommentsDao
 import me.maciejb.hnanalysis.submission.{StoriesQualifier, Submitter, WatsonRespExtractor}
 
