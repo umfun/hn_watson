@@ -58,7 +58,7 @@ object build extends sbt.Build {
 
   lazy val sparkAnalytics = project.in(file("spark-analytics")).settings(
     libraryDependencies ++= logging ++ Seq(spark)
-  )
+  ).settings(commonSettings: _*)
 
   lazy val root = project.in(file(".")).settings(
     libraryDependencies ++= logging ++ jodaTime ++ testingDeps ++
