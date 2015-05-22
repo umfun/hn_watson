@@ -22,7 +22,7 @@ object Dependencies {
   )
 
   val scalaTest = "org.scalatest" %% "scalatest" % "2.2.1" % "test"
-  val testingDeps = Seq(scalaTest)
+  val testing = Seq(scalaTest)
 
   val jsoup = "org.jsoup" % "jsoup" % "1.7.3"
 
@@ -57,11 +57,11 @@ object build extends sbt.Build {
   )
 
   lazy val sparkAnalytics = project.in(file("spark-analytics")).settings(
-    libraryDependencies ++= logging ++ Seq(spark)
+    libraryDependencies ++= logging ++ testing ++ Seq(spark)
   ).settings(commonSettings: _*)
 
   lazy val root = project.in(file(".")).settings(
-    libraryDependencies ++= logging ++ jodaTime ++ testingDeps ++
+    libraryDependencies ++= logging ++ jodaTime ++ testing ++
       Seq(casbah, salat, jsoup, sprayClient, lawn) ++ akka
   ).settings(commonSettings: _*).aggregate(sparkAnalytics)
 
