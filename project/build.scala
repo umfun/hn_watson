@@ -13,7 +13,7 @@ object Dependencies {
     "org.slf4j" % "slf4j-api" % slf4jVersion,
     "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
     "ch.qos.logback" % "logback-classic" % "1.1.1",
-    "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
+    "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0"
   )
 
   val jodaTime = Seq(
@@ -29,7 +29,8 @@ object Dependencies {
   val casbah = "org.mongodb" %% "casbah" % "2.7.4" exclude(org = "org.scala-lang", name = "scala-library")
   val salat = "com.novus" %% "salat" % "1.9.9"
 
-  val lawn = "me.maciejb.garden" %% "garden-lawn" % "0.0.33"
+  val gardenVersion = "0.0.33"
+  val lawn = "me.maciejb.garden" %% "garden-lawn" % gardenVersion
 
   val sprayClient = "io.spray" %% "spray-client" % "1.3.2"
 
@@ -38,6 +39,13 @@ object Dependencies {
     "com.typesafe.akka" %% s"akka-$name" % akkaVersion
   }
   val akka = (akkaModule("testkit") % "test") :: (List("actor", "slf4j") map akkaModule)
+
+  val json4sVersion = "3.2.11"
+  val json4s = Seq(
+    "org.json4s" %% "json4s-jackson" % json4sVersion,
+    "org.json4s" %% "json4s-ext" % json4sVersion,
+    "me.maciejb.garden" %% "garden-json4s" % gardenVersion
+  )
 
   val spark = "org.apache.spark" %% "spark-core" % "1.3.1" exclude("org.slf4j", "slf4j-log4j12")
 }
@@ -48,7 +56,6 @@ object build extends sbt.Build {
 
   val commonSettings = Seq(
     organization := "me.maciejb.hnwatson",
-    name := "hn_watson",
     version := "1.0",
     scalaVersion := "2.11.6",
     resolvers ++= Seq(
@@ -56,13 +63,20 @@ object build extends sbt.Build {
     )
   )
 
+  lazy val commons = project.in(file("commons")).settings(
+    commonSettings: _*
+  )
+
   lazy val sparkAnalytics = project.in(file("spark-analytics")).settings(
-    libraryDependencies ++= logging ++ testing ++ Seq(spark)
+    libraryDependencies ++= logging ++ testing ++ json4s ++ Seq(spark, jsoup)
   ).settings(commonSettings: _*)
+    .dependsOn(commons)
 
   lazy val root = project.in(file(".")).settings(
+    name := "hn_watson",
     libraryDependencies ++= logging ++ jodaTime ++ testing ++
       Seq(casbah, salat, jsoup, sprayClient, lawn) ++ akka
-  ).settings(commonSettings: _*).aggregate(sparkAnalytics)
+  ).settings(commonSettings: _*)
+    .aggregate(commons, sparkAnalytics)
 
 }
