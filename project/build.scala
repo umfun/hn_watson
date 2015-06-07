@@ -72,11 +72,17 @@ object build extends sbt.Build {
   ).settings(commonSettings: _*)
     .dependsOn(commons)
 
+  lazy val oldPipeline = project.in(file("old-pipeline")).settings(
+    libraryDependencies ++= logging ++ jodaTime ++ testing ++
+      Seq(casbah, salat, jsoup, sprayClient, lawn) ++ akka
+  ).settings(commonSettings: _*)
+    .dependsOn(commons)
+
   lazy val root = project.in(file(".")).settings(
     name := "hn_watson",
     libraryDependencies ++= logging ++ jodaTime ++ testing ++
       Seq(casbah, salat, jsoup, sprayClient, lawn) ++ akka
   ).settings(commonSettings: _*)
-    .aggregate(commons, sparkAnalytics)
+    .aggregate(commons, sparkAnalytics, oldPipeline)
 
 }
