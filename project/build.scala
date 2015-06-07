@@ -29,7 +29,7 @@ object Dependencies {
   val casbah = "org.mongodb" %% "casbah" % "2.7.4" exclude(org = "org.scala-lang", name = "scala-library")
   val salat = "com.novus" %% "salat" % "1.9.9"
 
-  val gardenVersion = "0.0.33"
+  val gardenVersion = "0.0.35"
   val lawn = "me.maciejb.garden" %% "garden-lawn" % gardenVersion
 
   val sprayClient = "io.spray" %% "spray-client" % "1.3.2"
@@ -79,9 +79,7 @@ object build extends sbt.Build {
     .dependsOn(commons)
 
   lazy val root = project.in(file(".")).settings(
-    name := "hn_watson",
-    libraryDependencies ++= logging ++ jodaTime ++ testing ++
-      Seq(casbah, salat, jsoup, sprayClient, lawn) ++ akka
+    name := "hn_watson"
   ).settings(commonSettings: _*)
     .aggregate(commons, sparkAnalytics, oldPipeline)
 
